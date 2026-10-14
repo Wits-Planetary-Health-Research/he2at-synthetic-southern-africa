@@ -1,0 +1,39 @@
+variable,code,label
+preterm,0,No
+preterm,1,Yes: Born before 37 completed weeks
+very_preterm,0,No
+very_preterm,1,Yes: Born before 32 completed weeks
+stillbirth,0,No
+stillbirth,1,Yes: Stillbirth
+low_birth_weight,0,No
+low_birth_weight,1,Yes: Birth weight under 2500 g
+hiv_positive,0,No
+hiv_positive,1,Yes: HIV positive at booking
+anaemia,0,No
+anaemia,1,Yes: Haemoglobin under 11.0 g/dL at booking
+hypertensive_disorder,0,No
+hypertensive_disorder,1,Yes: Hypertensive disorder of pregnancy
+outdoor_work_pregnancy,0,No
+outdoor_work_pregnancy,1,Yes: Worked outdoors during the pregnancy
+unimproved_water,0,No
+unimproved_water,1,Yes: Unimproved household water source
+ses_grade,1,Least poor
+ses_grade,2,Second
+ses_grade,3,Middle
+ses_grade,4,Fourth
+ses_grade,5,Poorest
+education,0,None
+education,1,Primary
+education,2,Secondary
+education,3,Tertiary
+country,ZAF,South Africa
+country,MOZ,Mozambique
+country,ZMB,Zambia
+country,MWI,Malawi
+country,ZWE,Zimbabwe
+country,BWA,Botswana
+country,NAM,Namibia
+urban_rural,urban,Urban
+urban_rural,rural,Rural
+infant_sex,male,Male
+infant_sex,female,Female

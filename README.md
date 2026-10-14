@@ -59,7 +59,7 @@ This writes a CSV copy next to every Parquet file (about 3 minutes; the Python v
 
 ## Files
 
-All in `data/`. Column definitions are in `docs/data_dictionary.csv` (participants) and `docs/files.md` (weather and districts).
+All in `data/`. Column definitions are in `docs/data_dictionary.csv` (participants) and `docs/files.md` (weather and districts). What every code means (the 0/1 variables, socio-economic grade, education) is in `docs/codebook.md`, with R and Stata label code.
 
 | File | What it is |
 |---|---|
