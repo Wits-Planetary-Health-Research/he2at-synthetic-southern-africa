@@ -1,0 +1,31 @@
+column,unit_or_coding,description
+id,integer,Pregnancy identifier (not renumbered after trimming)
+country,text,"ZAF, NAM, BWA, ZWE, ZMB, MWI, MOZ"
+district_id,text,"One of 80 invented districts, see districts.csv"
+urban_rural,text,urban or rural
+lmp_date,date,Last menstrual period
+birth_date,date,Date of delivery
+ga_days,days,Gestational age at birth in days (154 to 314)
+ga_weeks,weeks,"Gestational age at birth in weeks, continuous (ga_days/7)"
+preterm,0/1,Gestational age under 37 weeks
+very_preterm,0/1,Gestational age under 32 weeks
+stillbirth,0/1,Stillbirth
+birth_weight_g,grams,Birth weight
+low_birth_weight,0/1,Birth weight under 2500 g
+infant_sex,text,male or female
+age_years,years,Maternal age in whole years at booking (14 to 48)
+parity,count,"Previous births, 0 to 15"
+ses_grade,1 to 5,"Socio-economic grade; 1 least poor, 5 poorest"
+education,0 to 3,"Ordinal education level, higher is more schooling"
+hiv_positive,0/1,HIV positive at booking
+haemoglobin_g_dl,g/dL,Haemoglobin at booking
+anaemia,0/1,Haemoglobin-based anaemia flag
+bmi_booking,kg/m2,Body mass index at booking
+hypertensive_disorder,0/1,Hypertensive disorder of pregnancy
+outdoor_work_pregnancy,0/1,Outdoor work during pregnancy (the vulnerability factor)
+unimproved_water,0/1,Unimproved household water source
+anc_visits,count,Antenatal visits over the whole pregnancy
+pm25_t1,ug/m3,Mean PM2.5 in trimester 1
+pm25_t2,ug/m3,Mean PM2.5 in trimester 2
+pm25_t3,ug/m3,Mean PM2.5 in trimester 3
+pm25_mean,ug/m3,Mean PM2.5 over pregnancy

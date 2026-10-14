@@ -1,0 +1,3 @@
+figures/example_*
+__pycache__/
+*.pyc
