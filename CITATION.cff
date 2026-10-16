@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "HE2AT synthetic pregnancies and weather, southern Africa (v3)"
+version: "3"
+abstract: "A fully synthetic teaching dataset of pregnancies and weather for southern Africa, built for the ICMS workshop From Data to Impact (Edinburgh, November 2026). Every value is simulated. No real participant or weather data were used."
+authors:
+- {name: "HE2AT Center, Wits Planetary Health Research"}
+- {family-names: "Parker", given-names: "Craig", affiliation: "Wits Planetary Health Research", email: "craig.parker@witsphr.org"}
+repository-code: "https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa"
+keywords:
+- synthetic data
+- heat
+- preterm birth
+- southern Africa
