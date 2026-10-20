@@ -1,8 +1,20 @@
-# HE²AT synthetic pregnancies and weather, southern Africa (v3)
+# HE²AT synthetic pregnancies and weather, southern Africa (v4)
 
 A fully synthetic teaching dataset for the ICMS workshop *From Data to Impact: Advancing Climate Resilience in Africa Through Statistics and Mathematical Modelling* (Edinburgh, November 2026). It is built for one question: estimate a temperature field over a whole region from imperfect data, link it to outcomes recorded by district, and test whether temperature, or a change in temperature, is related to preterm birth.
 
-186,713 pregnancies in seven countries (South Africa, Mozambique, Zambia, Malawi, Zimbabwe, Botswana, Namibia) and 80 invented districts. Nine years of daily weather from 45 stations and a 0.5 degree gridded product.
+186,713 pregnancies in seven synthetic studies, one per country (South Africa, Mozambique, Zambia, Malawi, Zimbabwe, Botswana, Namibia), booked at 160 health facilities in 80 invented districts. Nine years of daily weather from 45 stations and a 0.5 degree gridded product.
+
+## What changed in v4
+
+The pregnancies and weather are the same draw as v3: the generator was re-run and every v3 file came back byte for byte. What changed is the layout of the participant data. It now follows the HE²AT harmonisation guidelines used for the real RP1 data:
+
+- long format, `STUDY CODE | PT ID | DATE | VARIABLE | VALUE | RELATION | LOCATION ID`, one file per study plus `master_long`
+- variable names and codes from the HEAT Master Codebook (`prem_birth`, `gest_age_delivery_days`, `hiv_status`, `yes`/`no` and so on)
+- PT IDs are salted hashes. The mother's PT ID is used on her child's rows, and the same hash links the long files, the wide copy and the exposure file
+- records carry a location code (`SYNZAF_17`), not a district name. The geolocation table with facility names and coordinates is held back, as it is for the real data
+- PM2.5 moved to a separate exposure file
+
+If you used v3: `examples/common.py` rebuilds the v3 column names from the new files, so the examples run unchanged. Results are identical.
 
 ## What this is and is not
 
@@ -16,25 +28,38 @@ Python 3.10 or later.
 
 ```
 pip install -r requirements.txt
-python examples/01_explore.py              # sizes, preterm by group, district map
+python examples/01_explore.py              # sizes, studies and locations, preterm by group, district map
 python examples/03_station_surface.py      # stations to a district exposure (inverse distance), compared with the gridded product
 python examples/02_heat_hazard_model.py    # discrete-time hazard of preterm birth against weekly temperature (about 2 minutes, 4 GB RAM)
 ```
 
 R users: the examples are short enough to port. `dlnm` works directly on the person-week frame built in example 02.
 
+## Run it in Colab
+
+Two walkthrough notebooks run the same first analysis cell by cell, with nothing to install on your own machine. You need a GitHub token because the repo is private (the first cell explains how).
+
+| | |
+|---|---|
+| Python | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/blob/main/notebooks/01_python_walkthrough.ipynb) `notebooks/01_python_walkthrough.ipynb` |
+| R (with `dlnm`) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/blob/main/notebooks/02_r_walkthrough.ipynb) `notebooks/02_r_walkthrough.ipynb` |
+
+The first time you open one, Colab asks to connect to your GitHub account so it can see private repos. Say yes.
+
 ## Opening the files (Parquet)
 
-Most files are plain CSV. Three kinds are Parquet: the participants, the station weather and the gridded weather. Parquet is a compressed table format, about a fifth the size of the same CSV and much faster to load. You cannot double-click it open in Excel, but one line in R or Python reads it.
+Most files are plain or gzipped CSV. Three are Parquet: the wide copy of the participant data, the station weather and the gridded weather. Parquet is a compressed table format, about a fifth the size of the same CSV and much faster to load. You cannot double-click it open in Excel, but one line in R or Python reads it.
 
-You may not need Parquet at all. The participants and stations also come as `.csv.gz` (R and Python read these directly; for Stata or Excel, unzip first with 7-Zip or `gunzip`). For most health analyses the weekly district file `district_week_exposure_gridded.csv` is enough. Only the gridded daily weather is Parquet-only.
+You may not need Parquet at all. The wide participant file and the stations also come as `.csv.gz` (R and Python read these directly; for Stata or Excel, unzip first with 7-Zip or `gunzip`). For most health analyses the weekly district file `district_week_exposure_gridded.csv` is enough. Only the gridded daily weather is Parquet-only.
 
 R (install once with `install.packages("arrow")`):
 
 ```r
 library(arrow)
 library(dplyr)
-p    <- read_parquet("data/participants.parquet")
+p    <- read_parquet("data/participants_wide.parquet")
+loc  <- read.csv("data/locations.csv")                    # LOCATION ID to district
+p    <- left_join(p, loc, by = c("LOCATION ID" = "Loc_id"))
 st   <- read_parquet("data/weather_stations_daily.parquet")
 grid <- open_dataset("data/weather_gridded") |>        # all three year files as one table
           filter(date >= as.Date("2104-01-01"), date < as.Date("2105-01-01")) |>
@@ -45,7 +70,9 @@ Python (`pip install pandas pyarrow`):
 
 ```python
 import pandas as pd
-p    = pd.read_parquet("data/participants.parquet")
+p    = pd.read_parquet("data/participants_wide.parquet")
+loc  = pd.read_csv("data/locations.csv")                  # LOCATION ID to district
+p    = p.merge(loc, left_on="LOCATION ID", right_on="Loc_id")
 grid = pd.read_parquet("data/weather_gridded")          # all three year files as one table
 ```
 
@@ -59,11 +86,15 @@ This writes a CSV copy next to every Parquet file (about 3 minutes; the Python v
 
 ## Files
 
-All in `data/`. Column definitions are in `docs/data_dictionary.csv` (participants) and `docs/files.md` (weather and districts). What every code means (the 0/1 variables, socio-economic grade, education) is in `docs/codebook.md`, with R and Stata label code.
+All in `data/`. Variable definitions are in `docs/data_dictionary.csv` (participants) and `docs/files.md` (layout, weather and districts). What every code means is in `docs/codebook.md`, with R and Stata code.
 
 | File | What it is |
 |---|---|
-| `participants.parquet` / `.csv.gz` | One row per pregnancy. District only, no coordinates. |
+| `long/<STUDY CODE>_long.csv.gz` | Participant data in the HE²AT long format, one file per study |
+| `master_long.csv.gz` | The seven study files stacked |
+| `participants_wide.parquet` / `.csv.gz` | `master_long` pivoted, one row per pregnancy |
+| `per_patient_exposures.csv.gz` | PM2.5 by trimester, keyed by PT ID |
+| `locations.csv` | Each LOCATION ID with its study, district and urban or rural setting. No names or coordinates |
 | `districts.csv`, `districts.geojson` | District boundaries and summaries |
 | `district_cells_0p25deg.csv` | Every 0.25 degree cell with its district and elevation. Use it to average any surface to districts |
 | `stations.csv`, `weather_stations_daily.parquet` | 45 stations: tmax, tmin, rain, humidity, dew point, wind speed. Station bias, gaps, late openings |
@@ -73,7 +104,7 @@ All in `data/`. Column definitions are in `docs/data_dictionary.csv` (participan
 
 ## Outcomes
 
-`ga_days` and `ga_weeks` give gestational age at birth as a continuous quantity, 22 to 44 weeks. `preterm` is under 37 weeks (about 15 per cent), `very_preterm` under 32 weeks. Stillbirth, birth weight and low birth weight are there too.
+`gest_age_delivery_days` gives gestational age at birth, 154 to 314 days (22 to 44 weeks). `prem_birth` is under 37 weeks (about 15 per cent), `very_prem_birth` under 32 weeks. Stillbirth, birth weight and low birth weight are there too.
 
 ## The weather
 
@@ -89,7 +120,8 @@ Humidity, dew point, wind speed and UTCI are derived from the same weather. Whet
 - Education and socio-economic grade are related. Check what each does with the other in the model.
 - Exposure windows anchored on the birth date give biased answers. Anchor on the last menstrual period, or use the person-week set-up in example 02.
 - Births at the very start and end of the period were removed because their pregnancies were only partly observed. The district weekly births file covers the same window.
-- There is no missing data in the participant file. Real data would have it.
+- There is no missing data in the participant files. Real data would have it, left blank.
+- Each location is one urban or one rural facility in a district. Linking exposure at district level treats everyone at both facilities alike.
 
 ## Workshop tasks
 
@@ -102,6 +134,6 @@ Example results from simple versions of each method are in `docs/method_comparis
 
 ## Citation and contact
 
-HE²AT Center, Wits Planetary Health Research. Synthetic southern Africa pregnancy and weather dataset, version 3, 2026.
+HE²AT Center, Wits Planetary Health Research. Synthetic southern Africa pregnancy and weather dataset, version 4, 2026.
 
 Craig Parker, craig.parker@witsphr.org

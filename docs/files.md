@@ -2,9 +2,17 @@
 
 All weather files run daily from 2100-01-01 to 2108-12-31. Day 0 is 2100-01-01. Week k covers days 7k to 7k+6.
 
-## participants.parquet / participants.csv.gz
+## Participant data (HE²AT harmonised layout)
 
-One row per pregnancy, 186,713 rows. Columns are in `data_dictionary.csv`. District only, no coordinates.
+Laid out the way the real HE²AT RP1 data is harmonised, so code written here runs on the real thing with few changes.
+
+- `long/<STUDY CODE>_long.csv.gz`: one file per study. Seven columns, in this order: `STUDY CODE | PT ID | DATE | VARIABLE | VALUE | RELATION | LOCATION ID`. 23 variables per pregnancy, 4,294,399 rows in all.
+- `master_long.csv.gz`: the seven study files stacked, nothing else changed.
+- `participants_wide.parquet` / `.csv.gz`: `master_long` pivoted to one row per pregnancy (186,713 rows). Same names and values. Use it if you would rather not pivot.
+- `per_patient_exposures.csv.gz`: PM2.5 by trimester, keyed by `STUDY CODE` and `PT ID`.
+- `locations.csv`: one row per `LOCATION ID` (160 health facilities) with its study, facility type, district and urban or rural setting. No names, no coordinates. Join on `LOCATION ID` to reach the district files below.
+
+Variables and codes are in `data_dictionary.csv` and `codebook.md`. The mother and her child share one PT ID; `RELATION` says whose value it is. Read the long files with every column as text and blanks as blank, for example `pd.read_csv(f, dtype=str, keep_default_na=False)`.
 
 ## districts.csv, districts.geojson, district_cells_0p25deg.csv
 

@@ -1,31 +1,28 @@
-column,unit_or_coding,description
-id,integer,Pregnancy identifier (not renumbered after trimming)
-country,text,"ZAF, NAM, BWA, ZWE, ZMB, MWI, MOZ"
-district_id,text,"One of 80 invented districts, see districts.csv"
-urban_rural,text,urban or rural
-lmp_date,date,Last menstrual period
-birth_date,date,Date of delivery
-ga_days,days,Gestational age at birth in days (154 to 314)
-ga_weeks,weeks,"Gestational age at birth in weeks, continuous (ga_days/7)"
-preterm,"0 = no, 1 = yes",Gestational age under 37 weeks
-very_preterm,"0 = no, 1 = yes",Gestational age under 32 weeks
-stillbirth,"0 = live birth, 1 = stillbirth",Stillbirth
-birth_weight_g,grams,Birth weight
-low_birth_weight,"0 = no, 1 = yes",Birth weight under 2500 g
-infant_sex,text,male or female
-age_years,years,Maternal age in whole years at booking (14 to 48)
-parity,count,"Previous births, 0 to 15"
-ses_grade,"1 = least poor, 2, 3, 4, 5 = poorest (quintiles)","Socio-economic grade, quintiles of a household wealth score"
-education,"0 = none, 1 = primary, 2 = secondary, 3 = tertiary",Highest level of schooling reached
-hiv_positive,"0 = negative, 1 = positive",HIV positive at booking
-haemoglobin_g_dl,g/dL,Haemoglobin at booking
-anaemia,"0 = no, 1 = yes (Hb under 11.0 g/dL)",Haemoglobin-based anaemia flag
-bmi_booking,kg/m2,Body mass index at booking
-hypertensive_disorder,"0 = no, 1 = yes",Hypertensive disorder of pregnancy
-outdoor_work_pregnancy,"0 = no, 1 = yes",Worked outdoors during the pregnancy
-unimproved_water,"0 = improved, 1 = unimproved",Unimproved household water source
-anc_visits,count,Antenatal visits over the whole pregnancy
-pm25_t1,ug/m3,Mean PM2.5 in trimester 1
-pm25_t2,ug/m3,Mean PM2.5 in trimester 2
-pm25_t3,ug/m3,Mean PM2.5 in trimester 3
-pm25_mean,ug/m3,Mean PM2.5 over pregnancy
+variable,relation,unit_or_coding,description,in_heat_master_codebook
+STUDY CODE,,text,"Synthetic study code, one per country: SYNBWA, SYNMOZ, SYNMWI, SYNNAM, SYNZAF, SYNZMB, SYNZWE",yes
+PT ID,,text,"Salted hash, 16 characters. One per pregnancy. The mother's PT ID is used unchanged on her child's rows",yes
+DATE,,YYYY-MM-DD,"Date of the event. Birth date for delivery outcomes, LMP date for lnmp, blank for booking variables",yes
+LOCATION ID,,text,"STUDYCODE_xx, for example SYNZAF_17. Health facility where the woman booked. See locations.csv",yes
+country,Mother,ISO 3166-1 alpha-3,"ZAF, NAM, BWA, ZWE, ZMB, MWI, MOZ",yes
+age_years,Mother,years,Maternal age in whole years at booking (14 to 48),yes
+parity,Mother,count,"Previous births, 0 to 15",yes
+education_cat,Mother,"none, primary, secondary, tertiary",Highest level of schooling reached,yes
+hiv_status,Mother,"positive, negative",HIV status at booking,yes
+haemoglobin,Mother,g/dL,Haemoglobin at booking,yes
+bmi,Mother,kg/m2,"Body mass index at booking, one decimal",yes
+hypertension_preg,Mother,"yes, no",Hypertensive disorder of pregnancy,yes
+lnmp,Mother,YYYY-MM-DD,Last normal menstrual period,yes
+anaemia,Mother,"yes, no",Haemoglobin under 11.0 g/dL at booking,no
+ses_quintile,Mother,1 = least poor to 5 = poorest,"Socio-economic grade, quintiles of a household wealth score",no
+outdoor_work_preg,Mother,"yes, no",Worked outdoors during the pregnancy,no
+water_source_unimproved,Mother,"yes, no",Household uses an unimproved water source,no
+anc_visits,Mother,count,Antenatal visits over the whole pregnancy,no
+dob,Child,YYYY-MM-DD,Date of delivery,yes
+sex,Child,"Male, Female",Infant sex,yes
+gest_age_delivery_days,Child,days,Gestational age at birth in days (154 to 314),yes
+gest_age_delivery_weeks,Child,weeks,Completed weeks of gestation at birth (gest_age_delivery_days // 7),yes
+prem_birth,Child,"yes, no",Born before 37 completed weeks,yes
+very_prem_birth,Child,"yes, no",Born before 32 completed weeks,yes
+stillbirth,Child,"yes, no",Stillbirth,yes
+birth_weight,Child,g,Birth weight,yes
+low_birth_weight,Child,"yes, no",Birth weight under 2500 g,yes

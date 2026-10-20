@@ -9,7 +9,7 @@ from matplotlib.patches import Polygon
 from common import participants, DATA, ROOT
 
 df = participants()
-print(f'{len(df):,} pregnancies, {df.district_id.nunique()} districts, births {df.birth_date.min().date()} to {df.birth_date.max().date()}')
+print(f'{len(df):,} pregnancies, {df.study.nunique()} studies, {df.location_id.nunique()} locations, {df.district_id.nunique()} districts, births {df.birth_date.min().date()} to {df.birth_date.max().date()}')
 print(f'preterm {df.preterm.mean():.3f}, very preterm {df.very_preterm.mean():.3f}, stillbirth {df.stillbirth.mean():.3f}')
 for col in ['country', 'ses_grade', 'outdoor_work_pregnancy', 'hiv_positive', 'urban_rural']:
     print(df.groupby(col).preterm.agg(['mean', 'size']).round(3).to_string(), '\n')

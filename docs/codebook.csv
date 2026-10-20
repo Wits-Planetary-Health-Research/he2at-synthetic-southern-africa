@@ -1,39 +1,30 @@
-variable,code,label
-preterm,0,No
-preterm,1,Yes: Born before 37 completed weeks
-very_preterm,0,No
-very_preterm,1,Yes: Born before 32 completed weeks
-stillbirth,0,No
-stillbirth,1,Yes: Stillbirth
-low_birth_weight,0,No
-low_birth_weight,1,Yes: Birth weight under 2500 g
-hiv_positive,0,No
-hiv_positive,1,Yes: HIV positive at booking
-anaemia,0,No
-anaemia,1,Yes: Haemoglobin under 11.0 g/dL at booking
-hypertensive_disorder,0,No
-hypertensive_disorder,1,Yes: Hypertensive disorder of pregnancy
-outdoor_work_pregnancy,0,No
-outdoor_work_pregnancy,1,Yes: Worked outdoors during the pregnancy
-unimproved_water,0,No
-unimproved_water,1,Yes: Unimproved household water source
-ses_grade,1,Least poor
-ses_grade,2,Second
-ses_grade,3,Middle
-ses_grade,4,Fourth
-ses_grade,5,Poorest
-education,0,None
-education,1,Primary
-education,2,Secondary
-education,3,Tertiary
-country,ZAF,South Africa
-country,MOZ,Mozambique
-country,ZMB,Zambia
-country,MWI,Malawi
-country,ZWE,Zimbabwe
-country,BWA,Botswana
-country,NAM,Namibia
-urban_rural,urban,Urban
-urban_rural,rural,Rural
-infant_sex,male,Male
-infant_sex,female,Female
+variable,value,n
+education_cat,none,21316
+education_cat,primary,77356
+education_cat,secondary,63531
+education_cat,tertiary,24510
+hiv_status,negative,155909
+hiv_status,positive,30804
+sex,Female,91202
+sex,Male,95511
+hypertension_preg,no,177094
+hypertension_preg,yes,9619
+prem_birth,no,158505
+prem_birth,yes,28208
+very_prem_birth,no,181363
+very_prem_birth,yes,5350
+stillbirth,no,183041
+stillbirth,yes,3672
+low_birth_weight,no,174918
+low_birth_weight,yes,11795
+anaemia,no,106362
+anaemia,yes,80351
+outdoor_work_preg,no,152674
+outdoor_work_preg,yes,34039
+water_source_unimproved,no,176673
+water_source_unimproved,yes,10040
+ses_quintile,1,37357
+ses_quintile,2,37352
+ses_quintile,3,37347
+ses_quintile,4,37298
+ses_quintile,5,37359
