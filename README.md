@@ -2,9 +2,9 @@
 
 ## Quick start
 
-1. Download [he2at-synthetic-southern-africa-v4.0.zip](https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/releases/download/v4.0/he2at-synthetic-southern-africa-v4.0.zip) (about 120 MB, no GitHub account needed), or clone the repo:
+1. Download [he2at-synthetic-southern-africa-v4.0.1.zip](https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/releases/download/v4.0.1/he2at-synthetic-southern-africa-v4.0.1.zip) (about 120 MB, no GitHub account needed), or clone the repo:
    `git clone https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa.git`
-2. Unzip it and open a terminal in the unzipped folder, `he2at-synthetic-southern-africa-v4.0`. Every command below runs from there.
+2. Unzip it and open a terminal in the unzipped folder, `he2at-synthetic-southern-africa-v4.0.1`. Every command below runs from there.
 3. Python 3.10 or later:
 
    ```
