@@ -12,7 +12,7 @@ haemoglobin,Mother,g/dL,Haemoglobin at booking,yes
 bmi,Mother,kg/m2,"Body mass index at booking, one decimal",yes
 hypertension_preg,Mother,"yes, no",Hypertensive disorder of pregnancy,yes
 lnmp,Mother,YYYY-MM-DD,Last normal menstrual period,yes
-anaemia,Mother,"yes, no",Haemoglobin under 11.0 g/dL at booking,no
+anaemia,Mother,"yes, no","Haemoglobin under 11.0 g/dL at booking, coded before haemoglobin was rounded to one decimal, so a woman shown as exactly 11.0 can be either",no
 ses_quintile,Mother,1 = least poor to 5 = poorest,"Socio-economic grade, quintiles of a household wealth score",no
 outdoor_work_preg,Mother,"yes, no",Worked outdoors during the pregnancy,no
 water_source_unimproved,Mother,"yes, no",Household uses an unimproved water source,no
