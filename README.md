@@ -1,5 +1,41 @@
 # HE²AT synthetic pregnancies and weather, southern Africa (v4)
 
+## Quick start
+
+1. Download [he2at-synthetic-southern-africa-v4.0.zip](https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/releases/download/v4.0/he2at-synthetic-southern-africa-v4.0.zip) (about 125 MB, no GitHub account needed), or clone the repo:
+   `git clone https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa.git`
+2. Unzip it and open a terminal in the unzipped folder, `he2at-synthetic-southern-africa-v4.0`. Every command below runs from there.
+3. Python 3.10 or later:
+
+   ```
+   pip install -r requirements.txt
+   python examples/01_explore.py              # sizes, studies and locations, preterm by group, district map
+   python examples/03_station_surface.py      # stations to a district exposure (inverse distance), compared with the gridded product
+   python examples/02_heat_hazard_model.py    # discrete-time hazard of preterm birth against weekly temperature (about 2 minutes, 4 GB RAM)
+   ```
+
+   `01_explore.py` takes a few seconds. Its first two lines should read:
+
+   ```
+   186,713 pregnancies, 7 studies, 160 locations, 80 districts, births 2101-11-06 to 2108-07-01
+   preterm 0.151, very preterm 0.029, stillbirth 0.020
+   ```
+
+   It then prints preterm rates by group and saves plots to `figures/`.
+4. R 4.1 or later. Install once with `install.packages(c("arrow", "dplyr"))`, then in R:
+
+   ```r
+   library(arrow)
+   p <- read_parquet("data/participants_wide.parquet")
+   dim(p)                        # 186713 26
+   mean(p$prem_birth == "yes")   # 0.151, the preterm rate
+   ```
+
+   `Rscript tools/parquet_to_csv.R` writes a CSV copy of every Parquet file. `dlnm` works directly on the person-week frame built in example 02. More R below, under "Opening the files".
+5. How to cite: see `CITATION.cff` (GitHub's "Cite this repository" button gives APA and BibTeX). Licence: data under CC BY 4.0 (`LICENSE-DATA`), code under MIT (`LICENSE`). Read `DATA_USE.md` before you start.
+
+## About the dataset
+
 A fully synthetic teaching dataset for the ICMS workshop *From Data to Impact: Advancing Climate Resilience in Africa Through Statistics and Mathematical Modelling* (Edinburgh, November 2026). It is built for one question: estimate a temperature field over a whole region from imperfect data, link it to outcomes recorded by district, and test whether temperature, or a change in temperature, is related to preterm birth.
 
 186,713 pregnancies in seven synthetic studies, one per country (South Africa, Mozambique, Zambia, Malawi, Zimbabwe, Botswana, Namibia), booked at 160 health facilities in 80 invented districts. Nine years of daily weather from 45 stations and a 0.5 degree gridded product.
@@ -22,29 +58,14 @@ Every value is simulated. Nothing was built from, fitted to or trained on any pa
 
 So results from this data are about methods, not about southern Africa. Please read `DATA_USE.md` before you start.
 
-## Quick start
-
-Python 3.10 or later.
-
-```
-pip install -r requirements.txt
-python examples/01_explore.py              # sizes, studies and locations, preterm by group, district map
-python examples/03_station_surface.py      # stations to a district exposure (inverse distance), compared with the gridded product
-python examples/02_heat_hazard_model.py    # discrete-time hazard of preterm birth against weekly temperature (about 2 minutes, 4 GB RAM)
-```
-
-R users: the examples are short enough to port. `dlnm` works directly on the person-week frame built in example 02.
-
 ## Run it in Colab
 
-Two walkthrough notebooks run the same first analysis cell by cell, with nothing to install on your own machine. You need a GitHub token because the repo is private (the first cell explains how).
+Two walkthrough notebooks run the same first analysis cell by cell, with nothing to install on your own machine. The first cell clones the repo; no GitHub account is needed.
 
 | | |
 |---|---|
 | Python | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/blob/main/notebooks/01_python_walkthrough.ipynb) `notebooks/01_python_walkthrough.ipynb` |
 | R (with `dlnm`) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/blob/main/notebooks/02_r_walkthrough.ipynb) `notebooks/02_r_walkthrough.ipynb` |
-
-The first time you open one, Colab asks to connect to your GitHub account so it can see private repos. Say yes.
 
 ## Opening the files (Parquet)
 
@@ -134,6 +155,6 @@ Example results from simple versions of each method are in `docs/method_comparis
 
 ## Citation and contact
 
-HE²AT Center, Wits Planetary Health Research. Synthetic southern Africa pregnancy and weather dataset, version 4, 2026.
+HE²AT Center, Wits Planetary Health Research. Synthetic southern Africa pregnancy and weather dataset, version 4, 2026. Data CC BY 4.0, code MIT.
 
 Craig Parker, craig.parker@witsphr.org
