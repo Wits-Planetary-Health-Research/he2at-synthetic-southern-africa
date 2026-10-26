@@ -2,7 +2,7 @@
 
 ## Quick start
 
-1. Download [he2at-synthetic-southern-africa-v4.0.zip](https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/releases/download/v4.0/he2at-synthetic-southern-africa-v4.0.zip) (about 125 MB, no GitHub account needed), or clone the repo:
+1. Download [he2at-synthetic-southern-africa-v4.0.zip](https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa/releases/download/v4.0/he2at-synthetic-southern-africa-v4.0.zip) (about 120 MB, no GitHub account needed), or clone the repo:
    `git clone https://github.com/Wits-Planetary-Health-Research/he2at-synthetic-southern-africa.git`
 2. Unzip it and open a terminal in the unzipped folder, `he2at-synthetic-southern-africa-v4.0`. Every command below runs from there.
 3. Python 3.10 or later:
@@ -14,7 +14,7 @@
    python examples/02_heat_hazard_model.py    # discrete-time hazard of preterm birth against weekly temperature (about 2 minutes, 4 GB RAM)
    ```
 
-   `01_explore.py` takes a few seconds. Its first two lines should read:
+   `01_explore.py` takes under half a minute. Its first two lines should read:
 
    ```
    186,713 pregnancies, 7 studies, 160 locations, 80 districts, births 2101-11-06 to 2108-07-01
