@@ -40,7 +40,7 @@ Stations have gaps (runs of missing days, about 2 to 17 per cent of days once a 
 
 A 0.5 degree gridded product, 1,728 cells, no gaps. Split into three files by year (2100-2102, 2103-2105, 2106-2108). `pd.read_parquet('data/weather_gridded')` or `arrow::open_dataset('data/weather_gridded')` reads all three as one table. Treat it like a reanalysis: complete, smooth, and wrong in ways you have to learn about. Its tmax has a spatially smooth bias, an error that drifts from day to day, and noise. It does not resolve features smaller than the grid.
 
-`gridded_0p5deg_cells.csv` lists the boxes: `cell05_id`, `lon` and `lat` (box centre), `n_cells_0p25` (how many 0.25 degree district cells fall in the box). The daily files have `cell05_id`, `lon`, `lat`, `date` and:
+`gridded_0p5deg_cells.csv` lists the boxes: `cell05_id`, `lon` and `lat` (the box's nominal centre), `n_cells_0p25` (how many 0.25 degree district cells fall in the box). The daily files have `cell05_id`, `lon`, `lat`, `date` and:
 
 | column | unit | notes |
 |---|---|---|
@@ -52,7 +52,9 @@ A 0.5 degree gridded product, 1,728 cells, no gaps. Split into three files by ye
 | dewpoint_c | °C | |
 | wind_speed_ms | m/s | 10 m wind speed |
 
-Grid-box tmax is for the box's mean elevation. A lapse rate of about 0.0055 °C per metre works for moving it to a station or cell height.
+Which box a place belongs to: take its nearest 0.25 degree cell in `district_cells_0p25deg.csv`, then the box is the one whose `lon`, `lat` equal `floor(cell lon / 0.5) * 0.5 + 0.25`, `floor(cell lat / 0.5) * 0.5 + 0.25`. Each box is the mean over the 0.25 degree cells assigned this way, so its true footprint sits 0.125 degree south-west of the printed centre. A plain point-in-box test on the printed centre puts about a third of the stations in a neighbouring box.
+
+Grid-box tmax is for the box's mean elevation (the mean `elev_m` of its 0.25 degree cells). A lapse rate of about 0.0055 °C per metre works for moving it to a cell's height. Use the cell's elevation, not the station's: the scoring truth is at cell level.
 
 ## district_week_exposure_gridded.csv
 

@@ -103,7 +103,7 @@ Stata has no built-in Parquet reader. Convert first, unzip, then `import delimit
 python tools/parquet_to_csv.py        # or:  Rscript tools/parquet_to_csv.R
 ```
 
-This writes a CSV copy next to every Parquet file (about 3 minutes; the Python version writes gzipped `.csv.gz`, about 100 MB, the R version plain `.csv`). The gridded weather has 5.7 million rows, too many for Excel. Open it in R, Python or Stata.
+This writes a CSV copy next to every Parquet file, except the gridded weather, which goes to `data/weather_gridded_csv/` so the Parquet folder still reads as one table (about 3 minutes; the Python version writes gzipped `.csv.gz`, about 100 MB, the R version plain `.csv`). The gridded weather has 5.7 million rows, too many for Excel. Open it in R, Python or Stata.
 
 ## Files
 
@@ -140,14 +140,14 @@ Humidity, dew point, wind speed and UTCI are derived from the same weather. Whet
 - `anc_visits` is counted over the whole pregnancy. Think about what that does to its link with gestational age before you adjust for it.
 - Education and socio-economic grade are related. Check what each does with the other in the model.
 - Exposure windows anchored on the birth date give biased answers. Anchor on the last menstrual period, or use the person-week set-up in example 02.
-- Births at the very start and end of the period were removed because their pregnancies were only partly observed. The district weekly births file covers the same window.
+- Births at the very start and end of the period were removed because their pregnancies were only partly observed. The district weekly births file covers whole weeks only, so it also leaves out the 588 births in the part weeks at either end (see `docs/files.md`).
 - There is no missing data in the participant files. Real data would have it, left blank.
 - Each location is one urban or one rural facility in a district. Linking exposure at district level treats everyone at both facilities alike.
 
 ## Workshop tasks
 
 1. Build a daily temperature surface for the whole region from the stations, the gridded product, or both. SPDE, functional kriging, physics-informed penalised regression and neural networks all fit here. The steering wind is released for methods that can use transport.
-2. Score it. The organisers can score predictions at the 15 held-out stations. Report error as well as uncertainty, as in the Heaton et al. case study.
+2. Score it. The organisers can score predictions at the 15 held-out stations, against the true temperature at each station's 0.25 degree cell. Report error as well as uncertainty, as in the Heaton et al. case study.
 3. Average to districts and link to outcomes. Person-week hazard models, distributed lag models, or weekly district counts with an at-risk offset.
 4. Ask the main question: is temperature, or week-on-week change in temperature, related to preterm birth? Does the answer depend on the surface you used?
 
